@@ -1,0 +1,35 @@
+{
+ "base_models": {
+  "toto_25b_ft": {
+   "repo": "Datadog/Toto-2.0-2.5B-FT",
+   "revision": "b4f030fb09ba0fe3f61dd11cf730539bda568eb1"
+  },
+  "chronos2": {
+   "repo": "amazon/chronos-2",
+   "revision": "29ec3766d36d6f73f0696f85560a422f50e8498c"
+  },
+  "bolt_base": {
+   "repo": "amazon/chronos-bolt-base",
+   "revision": "5d9f166d69f47aef3401367a7b842e78fe97b121"
+  },
+  "timesfm": {
+   "repo": "google/timesfm-2.5-200m-pytorch",
+   "revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3"
+  },
+  "tirex": {
+   "repo": "NX-AI/TiRex",
+   "revision": "63c740922493f5fbe60b277609ec62babfba2762",
+   "backend": "torch"
+  },
+  "tirex2": {
+   "repo": "NX-AI/TiRex-2",
+   "revision": "05e5b26db52bfb256f1ae1bdf785589850482de3",
+   "note": "backend vanilla forcé (sm_70), CTX_PRED=8192, AR par tronçons de 320"
+  },
+  "turk": {
+   "repo": "Verm1ion/turkforecast-fm-chronos2-lora-v1",
+   "revision": "5ecc306edacf47b87b9c21ac6fb6de3708206fc0",
+   "note": "adaptateur LoRA public sur amazon/chronos-2, fusionné (merge_and_unload)"
+  }
+ }
+}

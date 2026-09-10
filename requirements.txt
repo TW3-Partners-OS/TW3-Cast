@@ -1,0 +1,10 @@
+torch
+numpy
+pandas
+gluonts==0.15.1
+chronos-forecasting>=2.3
+tirex-ts
+toto-ts
+timesfm
+peft
+git+https://github.com/SalesforceAIResearch/gift-eval.git
