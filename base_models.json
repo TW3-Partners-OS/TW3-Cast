@@ -24,12 +24,12 @@
   "tirex2": {
    "repo": "NX-AI/TiRex-2",
    "revision": "05e5b26db52bfb256f1ae1bdf785589850482de3",
-   "note": "backend vanilla forcé (sm_70), CTX_PRED=8192, AR par tronçons de 320"
+   "note": "vanilla torch backend (compatible with pre-Ampere GPUs), context 8192, autoregressive decoding in chunks of 320"
   },
   "turk": {
    "repo": "Verm1ion/turkforecast-fm-chronos2-lora-v1",
    "revision": "5ecc306edacf47b87b9c21ac6fb6de3708206fc0",
-   "note": "adaptateur LoRA public sur amazon/chronos-2, fusionné (merge_and_unload)"
+   "note": "public LoRA adapter on amazon/chronos-2, merged into the base model (merge_and_unload)"
   }
  }
 }
