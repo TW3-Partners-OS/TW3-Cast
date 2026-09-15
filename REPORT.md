@@ -116,14 +116,12 @@ The loss is the **pinball over the benchmark's own 9 quantiles**, L = Σ_q ρ_q(
 sorted outputs (q̂₀.₁ ≤ … ≤ q̂₀.₉): the model learns exactly the distribution it will be
 judged on. Learning rates: 10⁻⁴ for LoRA, 10⁻⁵ for full fine-tunes.
 
-### 3.4 Three architectures, cross blends, calibration
+### 3.4 Three architectures, cross blends
 
 Three families are specialized — Chronos-2, TiRex, Toto 2.5B (LoRA adapters) —
 each with its own recipe (native loss, patch or horizon, scaling space). **Cross-architecture
 blends** (sorted quantile mean) consistently beat single-family ensembles: architecture
-diversity brings more than seed diversity. A calibration refinement completes the picture: on
-some configurations, the **winner's median is kept and only the outer quantiles are averaged**
-with the best members — the spread calibrates without touching the central forecast.
+diversity brings more than seed diversity.
 
 ```mermaid
 flowchart LR
@@ -222,8 +220,8 @@ logits table is a snapshot; the underlying system transposes as-is to external d
 ## 7. Results
 
 - The system is evaluated on all 97 benchmark configurations through the official harness
-  (MASE and WQL/CRPS). About two thirds of the configurations are served by a designated
-  specialist or blend, one third by the tournament.
+  (MASE and WQL/CRPS). About seven configurations in ten are served by a designated
+  specialist or blend, three in ten by the tournament.
 - Per-configuration details are in the GIFT-Eval submission
   (`results/TW3Cast/all_results.csv` on the benchmark repository); the current standing can
   be read on the public GIFT-Eval leaderboard.
