@@ -116,9 +116,9 @@ The loss is the **pinball over the benchmark's own 9 quantiles**, L = Σ_q ρ_q(
 sorted outputs (q̂₀.₁ ≤ … ≤ q̂₀.₉): the model learns exactly the distribution it will be
 judged on. Learning rates: 10⁻⁴ for LoRA, 10⁻⁵ for full fine-tunes.
 
-### 3.4 Four architectures, cross blends, calibration
+### 3.4 Three architectures, cross blends, calibration
 
-Four families are specialized — Chronos-2, TiRex, Chronos-Bolt, Toto 2.5B (LoRA adapters) —
+Three families are specialized — Chronos-2, TiRex, Toto 2.5B (LoRA adapters) —
 each with its own recipe (native loss, patch or horizon, scaling space). **Cross-architecture
 blends** (sorted quantile mean) consistently beat single-family ensembles: architecture
 diversity brings more than seed diversity. A calibration refinement completes the picture: on
@@ -130,7 +130,7 @@ flowchart LR
     classDef ft fill:#dcefdc,stroke:#2d6a2d
     classDef tn fill:#fdeed7,stroke:#a86414
     A["data:<br/>cleaning +<br/>dosed fusion ×3/×1"]:::ft --> W["windows:<br/>IQR floor 5%,<br/>pinball 9 quantiles"]:::ft
-    W --> M["4 architectures<br/>+ cross blends,<br/>multiple seeds"]:::ft
+    W --> M["3 architectures<br/>+ cross blends,<br/>multiple seeds"]:::ft
     M --> P["scaling:<br/>500 → 2000 steps<br/>if winning"]:::ft
     P --> V{"beats the tournament<br/>on the backtest?"}:::tn
     V -->|"yes"| RT["enters the router"]:::ft

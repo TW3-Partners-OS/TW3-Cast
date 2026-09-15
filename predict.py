@@ -61,10 +61,16 @@ def load_timesfm(max_horizon):
 
 # ---------------------------------------------------------------- artifact reloading
 def reload_artifact(kind, path, base_key=None):
-    """Reload one trained artifact. kind: c2 | tirex | bolt | toto."""
+    """Reload one trained artifact. kind: c2 | tirex | toto."""
     if kind == "c2":
         from chronos import BaseChronosPipeline
         if os.path.isdir(path):
+            if os.path.exists(os.path.join(path, "adapter_config.json")):
+                import peft
+                pipe = load_chronos(base_key or "chronos2")
+                pipe.model = peft.PeftModel.from_pretrained(pipe.model, path) \
+                                 .merge_and_unload().eval()
+                return pipe
             return BaseChronosPipeline.from_pretrained(path, device_map=DEV,
                                                        torch_dtype=torch.float32)
         pipe = load_chronos(base_key or "chronos2")
@@ -74,10 +80,6 @@ def reload_artifact(kind, path, base_key=None):
         m = load_tirex()
         m.load_state_dict(torch.load(path, map_location=DEV))
         return m
-    if kind == "bolt":
-        pipe = load_chronos("bolt_base")
-        pipe.model.load_state_dict(torch.load(path, map_location=DEV))
-        return pipe
     if kind == "toto":
         import peft
         base = load_toto()
@@ -115,8 +117,8 @@ def quantiles_chronos(pipe, ctxs, h):
     return np.concatenate(out)
 
 
-def member_forecast(member, ctxs, h, artifacts):
-    """Forecast of one manifest member: a base model name or 'kind:artifact_name'."""
+def member_forecast(member, ctxs, h, artifacts, config=None):
+    """Forecast of one router member: an expert id (Exx) or a base model name."""
     if member.startswith("E"):
         experts = json.load(open(os.path.join(os.path.dirname(__file__), "experts.json")))
         kind = experts[member]["type"]
@@ -124,12 +126,17 @@ def member_forecast(member, ctxs, h, artifacts):
                       os.path.join(artifacts, member + ".pt")]
         path = next((p for p in candidates if os.path.exists(p)), None)
         if path is None:
+            if config:
+                # experts shipped as verified forecast quantiles (weights not retained)
+                qf = os.path.join(artifacts, f"{member}__{config.replace('/', '_')}.npy")
+                if os.path.exists(qf):
+                    return np.load(qf)[:, :9, :h]
             raise FileNotFoundError(f"expert checkpoint not found: {member}")
         model = reload_artifact(kind, path)
-        if kind in ("c2", "bolt"):
+        if kind == "c2":
             return quantiles_chronos(model, ctxs, h)
         raise NotImplementedError(f"see README for the {kind} forecast recipe")
-    if member in ("chronos2", "bolt_base", "turk"):
+    if member in ("chronos2", "turk"):
         return quantiles_chronos(load_chronos("chronos2" if member == "turk" else member), ctxs, h)
     raise NotImplementedError(f"member {member}: load via base_models.json (see README)")
 
@@ -150,7 +157,7 @@ def main():
     d, ctxs, h, _ = contexts_for(args.config)
     q = None
     for _, r in rows.iterrows():
-        fc = member_forecast(str(r.expert), ctxs, h, args.artifacts)[:, :9, :h]
+        fc = member_forecast(str(r.expert), ctxs, h, args.artifacts, config=args.config)[:, :9, :h]
         q = fc * float(r.weight) if q is None else q + fc * float(r.weight)
     q = np.sort(q, axis=1).astype(np.float32)
     np.save(args.out, q)

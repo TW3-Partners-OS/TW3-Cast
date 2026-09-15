@@ -8,10 +8,6 @@
    "repo": "amazon/chronos-2",
    "revision": "29ec3766d36d6f73f0696f85560a422f50e8498c"
   },
-  "bolt_base": {
-   "repo": "amazon/chronos-bolt-base",
-   "revision": "5d9f166d69f47aef3401367a7b842e78fe97b121"
-  },
   "timesfm": {
    "repo": "google/timesfm-2.5-200m-pytorch",
    "revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3"
