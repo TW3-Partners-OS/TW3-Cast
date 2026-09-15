@@ -217,6 +217,17 @@ logits table is a snapshot; the underlying system transposes as-is to external d
 - **Fully anonymous series** (no selection history): a mini-tournament on the series' own
   past; failing that, the foundation-model blend serves as a robust floor.
 
+**An accretive system: improvement at marginal cost.** A structural property of the router is
+that it improves by accretion. A candidate expert is a LoRA adapter of a few megabytes,
+trained in 500–2000 steps — two to seven minutes on a single GPU — and is admitted only if it
+beats the tournament on the train-side backtest: by construction, adding an expert can never
+degrade the system on its selection criterion, and a failed candidate costs minutes and
+changes nothing. No global retraining ever occurs — integrating, replacing or retiring an
+expert is a one-row change in the logits table. The same property drives adaptation: pointing
+the light fine-tuning pipeline at a new domain's history and letting the admission rule
+arbitrate turns the router into a system that grows wherever cheap training wins, and falls
+back to its tournament wherever it does not.
+
 ## 7. Results
 
 - The system is evaluated on all 97 benchmark configurations through the official harness
