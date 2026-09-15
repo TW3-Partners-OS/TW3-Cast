@@ -1,0 +1,2 @@
+Mar 15 sep 2026 17:02:44 CEST
+snapshot of https://huggingface.co/spaces/Salesforce/GIFT-Eval results/ taken 2026-09-15T15:02Z

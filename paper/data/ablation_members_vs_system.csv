@@ -1,0 +1,9 @@
+variant,mean_MASE_rank
+Toto-2.0-2.5B-FT (zero-shot),32.89
+Chronos-2 (zero-shot),46.8
+TurkForecast c2-LoRA (zero-shot),47.79
+TiRex-2 (zero-shot),50.55
+TimesFM-2.5 (zero-shot),52.45
+TiRex (zero-shot),57.08
+Tournament only (all 97 configs served by the tournament),37.04
+Full system (designated experts + tournament + gates),19.41

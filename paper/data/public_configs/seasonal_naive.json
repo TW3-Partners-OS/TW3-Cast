@@ -1,0 +1,9 @@
+{
+    "model": "Seasonal_Naive",
+    "model_type": "statistical",
+    "model_dtype": "float32",
+    "model_link": "https://github.com/SalesforceAIResearch/gift-eval/blob/main/notebooks/naive.ipynb",
+    "code_link": "https://github.com/SalesforceAIResearch/gift-eval/blob/main/notebooks/naive.ipynb",
+    "testdata_leakage": "No",
+    "replication_code_available": "Yes"
+}

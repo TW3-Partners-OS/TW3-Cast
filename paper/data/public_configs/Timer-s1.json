@@ -1,0 +1,10 @@
+{
+    "model": "Timer-S1",
+    "model_type": "pretrained",
+    "model_dtype": "bf16",
+    "model_link": "https://huggingface.co/bytedance-research/Timer-S1",
+    "code_link": "https://github.com/SalesforceAIResearch/gift-eval/blob/main/notebooks/timer-s1.ipynb",
+    "org": "Tsinghua & ByteDance",
+    "testdata_leakage": "No",
+    "replication_code_available": "Yes"
+}

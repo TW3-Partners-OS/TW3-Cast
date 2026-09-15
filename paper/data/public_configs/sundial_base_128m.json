@@ -1,0 +1,10 @@
+{
+    "model": "sundial_base_128m",
+    "model_type": "zero-shot",
+    "model_dtype": "float32",
+    "model_link": "https://huggingface.co/thuml/sundial-base-128m",
+    "code_link": "https://github.com/SalesforceAIResearch/gift-eval/blob/main/notebooks/sundial.ipynb",
+    "org": "Tsinghua University",
+    "testdata_leakage": "No",
+    "replication_code_available": "Yes"
+}

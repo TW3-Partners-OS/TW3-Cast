@@ -1,0 +1,7 @@
+position,entry,mase_rank,type,leakage
+1,STRIDE_w_Synapse,14.9,agentic,No
+2,EXAONE-Forecast-Agent,19.1,agentic,No
+3,TW3Cast,19.4,router,No
+4,LS-MoE,19.6,agentic,No
+5,LS-Agent,21.6,agentic,No
+6,Falcon-Agent,22.5,agentic,No

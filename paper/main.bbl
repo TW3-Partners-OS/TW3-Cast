@@ -1,0 +1,228 @@
+\begin{thebibliography}{32}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Aksu et~al.(2024)Aksu, Woo, Liu, Liu, Liu, Savarese, Xiong, and
+  Sahoo]{aksu2024gifteval}
+Taha Aksu, Gerald Woo, Juncheng Liu, Xu~Liu, Chenghao Liu, Silvio Savarese,
+  Caiming Xiong, and Doyen Sahoo.
+\newblock {GIFT-Eval}: A benchmark for general time series forecasting model
+  evaluation.
+\newblock \emph{arXiv preprint arXiv:2410.10393}, 2024.
+
+\bibitem[Alexandrov et~al.(2020)Alexandrov, Benidis, Bohlke-Schneider,
+  Flunkert, Gasthaus, Januschowski, Maddix, Rangapuram, Salinas, Schulz,
+  et~al.]{alexandrov2020gluonts}
+Alexander Alexandrov, Konstantinos Benidis, Michael Bohlke-Schneider, Valentin
+  Flunkert, Jan Gasthaus, Tim Januschowski, Danielle~C. Maddix, Syama
+  Rangapuram, David Salinas, Jasper Schulz, et~al.
+\newblock {GluonTS}: Probabilistic and neural time series modeling in {Python}.
+\newblock \emph{Journal of Machine Learning Research}, 21\penalty0
+  (116):\penalty0 1--6, 2020.
+
+\bibitem[Ansari et~al.(2024)Ansari, Stella, Turkmen, Zhang, Mercado, Shen,
+  Shchur, Rangapuram, Pineda~Arango, Kapoor, et~al.]{ansari2024chronos}
+Abdul~Fatir Ansari, Lorenzo Stella, Caner Turkmen, Xiyuan Zhang, Pedro Mercado,
+  Huibin Shen, Oleksandr Shchur, Syama~Sundar Rangapuram, Sebastian
+  Pineda~Arango, Shubham Kapoor, et~al.
+\newblock Chronos: Learning the language of time series.
+\newblock \emph{Transactions on Machine Learning Research}, 2024.
+
+\bibitem[Ansari et~al.(2025)Ansari, Shchur, K{\"u}ken, Auer, Han, Mercado,
+  Rangapuram, Shen, Stella, Zhang, et~al.]{ansari2025chronos2}
+Abdul~Fatir Ansari, Oleksandr Shchur, Jaris K{\"u}ken, Andreas Auer, Boran Han,
+  Pedro Mercado, Syama~Sundar Rangapuram, Huibin Shen, Lorenzo Stella, Xiyuan
+  Zhang, et~al.
+\newblock {Chronos-2}: From univariate to universal forecasting.
+\newblock \emph{arXiv preprint arXiv:2510.15821}, 2025.
+
+\bibitem[Auer et~al.(2025)Auer, Podest, Klotz, B{\"o}ck, Klambauer, and
+  Hochreiter]{auer2025tirex}
+Andreas Auer, Patrick Podest, Daniel Klotz, Sebastian B{\"o}ck, G{\"u}nter
+  Klambauer, and Sepp Hochreiter.
+\newblock {TiRex}: Zero-shot forecasting across long and short horizons with
+  enhanced in-context learning.
+\newblock \emph{arXiv preprint arXiv:2505.23719}, 2025.
+
+\bibitem[Bates and Granger(1969)]{bates1969combination}
+John~M. Bates and Clive W.~J. Granger.
+\newblock The combination of forecasts.
+\newblock \emph{Journal of the Operational Research Society}, 20\penalty0
+  (4):\penalty0 451--468, 1969.
+
+\bibitem[Bergmeir and Ben{\'i}tez(2012)]{bergmeir2012crossvalidation}
+Christoph Bergmeir and Jos{\'e}~M. Ben{\'i}tez.
+\newblock On the use of cross-validation for time series predictor evaluation.
+\newblock \emph{Information Sciences}, 191:\penalty0 192--213, 2012.
+
+\bibitem[Cerqueira et~al.(2020)Cerqueira, Torgo, and
+  Mozeti{\v{c}}]{cerqueira2020evaluating}
+Vitor Cerqueira, Lu{\'i}s Torgo, and Igor Mozeti{\v{c}}.
+\newblock Evaluating time series forecasting models: An empirical study on
+  performance estimation methods.
+\newblock \emph{Machine Learning}, 109:\penalty0 1997--2028, 2020.
+
+\bibitem[Claeskens et~al.(2016)Claeskens, Magnus, Vasnev, and
+  Wang]{claeskens2016puzzle}
+Gerda Claeskens, Jan~R. Magnus, Andrey~L. Vasnev, and Wendun Wang.
+\newblock The forecast combination puzzle: A simple theoretical explanation.
+\newblock \emph{International Journal of Forecasting}, 32\penalty0
+  (3):\penalty0 754--762, 2016.
+
+\bibitem[Cohen et~al.(2025)Cohen, Khwaja, Doubli, Lemaachi, Lettieri, Masson,
+  Miccinilli, Ram{\'e}, Ren, Rostamizadeh, et~al.]{cohen2025toto}
+Ben Cohen, Emaad Khwaja, Youssef Doubli, Salahidine Lemaachi, Chris Lettieri,
+  Charles Masson, Hugo Miccinilli, Elise Ram{\'e}, Qiqi Ren, Afshin
+  Rostamizadeh, et~al.
+\newblock This time is different: An observability perspective on time series
+  foundation models.
+\newblock \emph{arXiv preprint arXiv:2505.14766}, 2025.
+
+\bibitem[Das et~al.(2024)Das, Kong, Sen, and Zhou]{das2024timesfm}
+Abhimanyu Das, Weihao Kong, Rajat Sen, and Yichen Zhou.
+\newblock A decoder-only foundation model for time-series forecasting.
+\newblock In \emph{International Conference on Machine Learning}, 2024.
+
+\bibitem[{Datadog}(2026)]{toto2card}
+{Datadog}.
+\newblock {Toto} 2.0 2.5b-ft (model release).
+\newblock \url{https://huggingface.co/Datadog/Toto-2.0-2.5B-FT}, 2026.
+
+\bibitem[Gneiting and Raftery(2007)]{gneiting2007scoring}
+Tilmann Gneiting and Adrian~E. Raftery.
+\newblock Strictly proper scoring rules, prediction, and estimation.
+\newblock \emph{Journal of the American Statistical Association}, 102\penalty0
+  (477):\penalty0 359--378, 2007.
+
+\bibitem[{Google Research}(2025)]{timesfm25card}
+{Google Research}.
+\newblock {TimesFM} 2.5 200m (model release).
+\newblock \url{https://huggingface.co/google/timesfm-2.5-200m-pytorch}, 2025.
+
+\bibitem[Hu et~al.(2021)Hu, Shen, Wallis, Allen-Zhu, Li, Wang, Wang, and
+  Chen]{hu2021lora}
+Edward~J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean
+  Wang, Lu~Wang, and Weizhu Chen.
+\newblock {LoRA}: Low-rank adaptation of large language models.
+\newblock \emph{arXiv preprint arXiv:2106.09685}, 2021.
+
+\bibitem[Hyndman and Koehler(2006)]{hyndman2006mase}
+Rob~J. Hyndman and Anne~B. Koehler.
+\newblock Another look at measures of forecast accuracy.
+\newblock \emph{International Journal of Forecasting}, 22\penalty0
+  (4):\penalty0 679--688, 2006.
+
+\bibitem[Koenker and Bassett(1978)]{koenker1978quantile}
+Roger Koenker and Gilbert Bassett.
+\newblock Regression quantiles.
+\newblock \emph{Econometrica}, 46\penalty0 (1):\penalty0 33--50, 1978.
+
+\bibitem[Lemke and Gabrys(2010)]{lemke2010metalearning}
+Christiane Lemke and Bogdan Gabrys.
+\newblock Meta-learning for time series forecasting and forecast combination.
+\newblock \emph{Neurocomputing}, 73\penalty0 (10--12):\penalty0 2006--2016,
+  2010.
+
+\bibitem[Liu et~al.(2024)Liu, Liu, Woo, Aksu, Liang, Zimmermann, Liu, Savarese,
+  Xiong, and Sahoo]{liu2024moiraimoe}
+Xu~Liu, Juncheng Liu, Gerald Woo, Taha Aksu, Yuxuan Liang, Roger Zimmermann,
+  Chenghao Liu, Silvio Savarese, Caiming Xiong, and Doyen Sahoo.
+\newblock {Moirai-MoE}: Empowering time series foundation models with sparse
+  mixture of experts.
+\newblock \emph{arXiv preprint arXiv:2410.10469}, 2024.
+
+\bibitem[Makridakis et~al.(2020)Makridakis, Spiliotis, and
+  Assimakopoulos]{makridakis2020m4}
+Spyros Makridakis, Evangelos Spiliotis, and Vassilios Assimakopoulos.
+\newblock The {M4} competition: 100,000 time series and 61 forecasting methods.
+\newblock \emph{International Journal of Forecasting}, 36\penalty0
+  (1):\penalty0 54--74, 2020.
+
+\bibitem[Makridakis et~al.(2022)Makridakis, Spiliotis, and
+  Assimakopoulos]{makridakis2022m5}
+Spyros Makridakis, Evangelos Spiliotis, and Vassilios Assimakopoulos.
+\newblock {M5} accuracy competition: Results, findings, and conclusions.
+\newblock \emph{International Journal of Forecasting}, 38\penalty0
+  (4):\penalty0 1346--1364, 2022.
+
+\bibitem[Montero-Manso et~al.(2020)Montero-Manso, Athanasopoulos, Hyndman, and
+  Talagala]{montero2020fforma}
+Pablo Montero-Manso, George Athanasopoulos, Rob~J. Hyndman, and Thiyanga~S.
+  Talagala.
+\newblock {FFORMA}: Feature-based forecast model averaging.
+\newblock \emph{International Journal of Forecasting}, 36\penalty0
+  (1):\penalty0 86--92, 2020.
+
+\bibitem[{NX-AI}(2026)]{tirex2card}
+{NX-AI}.
+\newblock {TiRex-2} (model release).
+\newblock \url{https://huggingface.co/NX-AI/TiRex-2}, 2026.
+
+\bibitem[Rasul et~al.(2023)Rasul, Ashok, Williams, Ghonia, Bhagwatkar,
+  Khorasani, Darvishi~Bayazi, Adamopoulos, Riachi, Hassen,
+  et~al.]{rasul2023lagllama}
+Kashif Rasul, Arjun Ashok, Andrew~Robert Williams, Hena Ghonia, Rishika
+  Bhagwatkar, Arian Khorasani, Mohammad~Javad Darvishi~Bayazi, George
+  Adamopoulos, Roland Riachi, Nadhir Hassen, et~al.
+\newblock {Lag-Llama}: Towards foundation models for probabilistic time series
+  forecasting.
+\newblock \emph{arXiv preprint arXiv:2310.08278}, 2023.
+
+\bibitem[Shazeer et~al.(2017)Shazeer, Mirhoseini, Maziarz, Davis, Le, Hinton,
+  and Dean]{shazeer2017moe}
+Noam Shazeer, Azalia Mirhoseini, Krzysztof Maziarz, Andy Davis, Quoc Le,
+  Geoffrey Hinton, and Jeff Dean.
+\newblock Outrageously large neural networks: The sparsely-gated
+  mixture-of-experts layer.
+\newblock In \emph{International Conference on Learning Representations}, 2017.
+
+\bibitem[Shi et~al.(2025)Shi, Wang, Nie, Li, Ye, Wen, and Jin]{shi2025timemoe}
+Xiaoming Shi, Shiyu Wang, Yuqi Nie, Dianqi Li, Zhou Ye, Qingsong Wen, and Ming
+  Jin.
+\newblock {Time-MoE}: Billion-scale time series foundation models with mixture
+  of experts.
+\newblock In \emph{International Conference on Learning Representations}, 2025.
+
+\bibitem[Smith and Wallis(2009)]{smith2009puzzle}
+Jeremy Smith and Kenneth~F. Wallis.
+\newblock A simple explanation of the forecast combination puzzle.
+\newblock \emph{Oxford Bulletin of Economics and Statistics}, 71\penalty0
+  (3):\penalty0 331--355, 2009.
+
+\bibitem[Talagala et~al.(2023)Talagala, Hyndman, and
+  Athanasopoulos]{talagala2023fforms}
+Thiyanga~S. Talagala, Rob~J. Hyndman, and George Athanasopoulos.
+\newblock Meta-learning how to forecast time series.
+\newblock \emph{Journal of Forecasting}, 42\penalty0 (6):\penalty0 1476--1501,
+  2023.
+
+\bibitem[Tashman(2000)]{tashman2000outofsample}
+Leonard~J. Tashman.
+\newblock Out-of-sample tests of forecasting accuracy: An analysis and review.
+\newblock \emph{International Journal of Forecasting}, 16\penalty0
+  (4):\penalty0 437--450, 2000.
+
+\bibitem[Timmermann(2006)]{timmermann2006combinations}
+Allan Timmermann.
+\newblock Forecast combinations.
+\newblock In \emph{Handbook of Economic Forecasting}, volume~1, pages 135--196.
+  Elsevier, 2006.
+
+\bibitem[{Verm1ion}(2026)]{turkforecast}
+{Verm1ion}.
+\newblock {TurkForecast-FM}: A public {LoRA} adapter of {Chronos-2} (model
+  release).
+\newblock
+  \url{https://huggingface.co/Verm1ion/turkforecast-fm-chronos2-lora-v1}, 2026.
+
+\bibitem[Woo et~al.(2024)Woo, Liu, Kumar, Xiong, Savarese, and
+  Sahoo]{woo2024moirai}
+Gerald Woo, Chenghao Liu, Akshat Kumar, Caiming Xiong, Silvio Savarese, and
+  Doyen Sahoo.
+\newblock Unified training of universal time series forecasting transformers.
+\newblock In \emph{International Conference on Machine Learning}, 2024.
+
+\end{thebibliography}

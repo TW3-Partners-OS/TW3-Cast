@@ -1,0 +1,98 @@
+,mode,members,term
+bitbrains_fast_storage/5T/long,tournament,['__tournament__'],long
+bitbrains_fast_storage/5T/medium,specialist,['E01'],medium
+bitbrains_fast_storage/5T/short,tournament,['__tournament__'],short
+bitbrains_fast_storage/H/short,specialist,['E02'],short
+bitbrains_rnd/5T/long,blend of base models,"['toto_25b_ft', 'chronos2', 'turk']",long
+bitbrains_rnd/5T/medium,blend of base models,"['toto_25b_ft', 'chronos2', 'turk']",medium
+bitbrains_rnd/5T/short,tournament,['__tournament__'],short
+bitbrains_rnd/H/short,blend of base models,"['chronos2', 'turk']",short
+bizitobs_application/10S/long,tournament,['__tournament__'],long
+bizitobs_application/10S/medium,tournament,['__tournament__'],medium
+bizitobs_application/10S/short,tournament,['__tournament__'],short
+bizitobs_l2c/5T/long,specialist,['E03'],long
+bizitobs_l2c/5T/medium,specialist,['E03'],medium
+bizitobs_l2c/5T/short,tournament,['__tournament__'],short
+bizitobs_l2c/H/long,specialist,['E42'],long
+bizitobs_l2c/H/medium,specialist,['E42'],medium
+bizitobs_l2c/H/short,blend of base models,"['toto_25b_ft', 'chronos2', 'timesfm']",short
+bizitobs_service/10S/long,tournament,['__tournament__'],long
+bizitobs_service/10S/medium,blend of base models,"['toto_25b_ft', 'chronos2', 'timesfm']",medium
+bizitobs_service/10S/short,tournament,['__tournament__'],short
+car_parts/M/short,blend of base models,"['chronos2', 'timesfm', 'tirex2']",short
+covid_deaths/D/short,tournament,['__tournament__'],short
+electricity/15T/long,blend with specialist,"['E09', 'chronos2', 'tirex']",long
+electricity/15T/medium,blend with specialist,"['E09', 'chronos2', 'turk']",medium
+electricity/15T/short,tournament,['__tournament__'],short
+electricity/D/short,blend with specialist,"['E04', 'toto_25b_ft']",short
+electricity/H/long,specialist,['E05'],long
+electricity/H/medium,blend with specialist,"['E06', 'chronos2', 'E07']",medium
+electricity/H/short,blend of base models,"['toto_25b_ft', 'chronos2', 'tirex']",short
+electricity/W/short,specialist,['E08'],short
+ett1/15T/long,blend with specialist,"['turk', 'chronos2', 'E09', 'tirex']",long
+ett1/15T/medium,blend with specialist,"['E10', 'chronos2']",medium
+ett1/15T/short,blend of base models,"['toto_25b_ft', 'chronos2', 'tirex']",short
+ett1/D/short,blend with specialist,"['E11', 'chronos2']",short
+ett1/H/long,blend with specialist,"['tirex', 'E12', 'tirex2']",long
+ett1/H/medium,blend with specialist,"['E13', 'toto_uni']",medium
+ett1/H/short,tournament,['__tournament__'],short
+ett1/W/short,blend of base models,"['timesfm', 'tirex2', 'chronos2']",short
+ett2/15T/long,blend with specialist,"['E14', 'turk']",long
+ett2/15T/medium,blend with specialist,"['E10', 'E13']",medium
+ett2/15T/short,blend of base models,"['toto_25b_ft', 'chronos2', 'timesfm']",short
+ett2/D/short,blend with specialist,"['E04', 'E15']",short
+ett2/H/long,blend with specialist,"['turk', 'timesfm', 'E16']",long
+ett2/H/medium,blend with specialist,"['E13', 'toto_uni']",medium
+ett2/H/short,blend with specialist,"['E17', 'chronos2']",short
+ett2/W/short,specialist,['E18'],short
+hierarchical_sales/D/short,blend of base models,"['toto_25b_ft', 'chronos2', 'tirex']",short
+hierarchical_sales/W/short,specialist,['E19'],short
+hospital/M/short,tournament,['__tournament__'],short
+jena_weather/10T/long,tournament,['__tournament__'],long
+jena_weather/10T/medium,specialist,['E44'],medium
+jena_weather/10T/short,tournament,['__tournament__'],short
+jena_weather/D/short,blend with specialist,"['E20', 'timesfm']",short
+jena_weather/H/long,tournament,['__tournament__'],long
+jena_weather/H/medium,blend with specialist,"['E43', 'timesfm', 'chronos2']",medium
+jena_weather/H/short,tournament,['__tournament__'],short
+kdd_cup_2018/D/short,blend of base models,"['toto_25b_ft', 'timesfm', 'turk']",short
+kdd_cup_2018/H/long,blend with specialist,"['E22', 'tirex']",long
+kdd_cup_2018/H/medium,blend with specialist,"['E22', 'tirex']",medium
+kdd_cup_2018/H/short,tournament,['__tournament__'],short
+loop_seattle/5T/long,tournament,['__tournament__'],long
+loop_seattle/5T/medium,tournament,['__tournament__'],medium
+loop_seattle/5T/short,blend of base models,"['toto_25b_ft', 'chronos2', 'timesfm']",short
+loop_seattle/D/short,blend with specialist,"['E23', 'timesfm']",short
+loop_seattle/H/long,blend of base models,"['toto_25b_ft', 'chronos2', 'timesfm']",long
+loop_seattle/H/medium,specialist,['E24'],medium
+loop_seattle/H/short,blend with specialist,"['E27', 'timesfm', 'chronos2']",short
+m4_daily/D/short,blend with specialist,"['E25', 'E26']",short
+m4_hourly/H/short,blend with specialist,"['E27', 'tirex', 'timesfm']",short
+m4_monthly/M/short,tournament,['__tournament__'],short
+m4_quarterly/Q/short,blend with specialist,"['E32', 'toto_25b_ft']",short
+m4_weekly/W/short,blend of base models,"['toto_25b_ft', 'timesfm']",short
+m4_yearly/A/short,tournament,['__tournament__'],short
+m_dense/D/short,blend with specialist,"['turk', 'E28', 'timesfm']",short
+m_dense/H/long,blend of base models,"['toto_25b_ft', 'chronos2', 'timesfm']",long
+m_dense/H/medium,blend of base models,"['toto_25b_ft', 'chronos2', 'timesfm']",medium
+m_dense/H/short,blend with specialist,"['E29', 'chronos2', 'E27']",short
+restaurant/D/short,blend with specialist,"['E30', 'turk', 'E31']",short
+saugeen/D/short,blend of base models,"['chronos2', 'timesfm']",short
+saugeen/M/short,blend of base models,"['toto_25b_ft', 'chronos2', 'timesfm']",short
+saugeen/W/short,blend of base models,"['toto_25b_ft', 'turk']",short
+solar/10T/long,blend of base models,"['toto_25b_ft', 'chronos2', 'turk']",long
+solar/10T/medium,tournament,['__tournament__'],medium
+solar/10T/short,blend of base models,"['toto_25b_ft', 'chronos2', 'turk']",short
+solar/D/short,tournament,['__tournament__'],short
+solar/H/long,blend with specialist,"['tirex', 'E33', 'E34']",long
+solar/H/medium,specialist,['E35'],medium
+solar/H/short,tournament,['__tournament__'],short
+solar/W/short,specialist,['E19'],short
+sz_taxi/15T/long,blend with specialist,"['E36', 'toto_25b_ft']",long
+sz_taxi/15T/medium,blend with specialist,"['E36', 'toto_25b_ft']",medium
+sz_taxi/15T/short,tournament,['__tournament__'],short
+sz_taxi/H/short,blend with specialist,"['E27', 'E37']",short
+temperature_rain/D/short,specialist,['E41'],short
+us_births/D/short,tournament,['__tournament__'],short
+us_births/M/short,blend with specialist,"['E38', 'E39']",short
+us_births/W/short,specialist,['E40'],short

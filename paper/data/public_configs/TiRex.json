@@ -1,0 +1,10 @@
+{
+    "model": "TiRex",
+    "model_type": "zero-shot",
+    "model_dtype": "float32",
+    "model_link": "https://huggingface.co/NX-AI/TiRex-1.1-gifteval",
+    "code_link":"https://github.com/SalesforceAIResearch/gift-eval/blob/main/notebooks/tirex.ipynb",
+    "org": "NXAI",
+    "testdata_leakage": "No",
+    "replication_code_available": "Yes"
+}

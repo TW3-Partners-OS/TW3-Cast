@@ -1,0 +1,11 @@
+position,system,mean_MASE_rank
+1,STRIDE_w_Synapse,14.88
+2,EXAONE-Forecast-Agent,19.12
+3,TW3Cast,19.41
+4,LS-MoE,19.62
+5,LS-Agent,21.59
+6,Falcon-Agent,22.52
+7,CastStar,22.58
+8,limix_moe,22.63
+9,TIMEHEDGE,24.02
+10,RegLab-AH-1,24.72

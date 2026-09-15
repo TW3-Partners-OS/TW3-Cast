@@ -1,0 +1,9 @@
+{
+    "model": "VisionTS",
+    "model_type": "zero-shot",
+    "model_dtype": "float32",
+    "model_link": "https://github.com/Keytoyze/VisionTS",
+    "org": "Zhejiang University",
+    "testdata_leakage": "No",
+    "replication_code_available": "No"
+}

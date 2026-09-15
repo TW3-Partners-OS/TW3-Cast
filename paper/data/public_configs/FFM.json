@@ -1,0 +1,10 @@
+{
+  "model": "FFM",
+  "model_type": "deep-learning",
+  "model_dtype": "mixed-precision (float16/float32)",
+  "model_link": "TBD",
+  "code_link": "TBD",
+  "replication_code_available": "No",
+  "org": "IBM Research",
+  "testdata_leakage": "No"
+}

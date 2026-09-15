@@ -1,0 +1,10 @@
+{
+    "model": "Kairos_10m",
+    "model_type": "zero-shot",
+    "model_dtype": "float32",
+    "model_link": "https://huggingface.co/mldi-lab/Kairos_10m",
+    "code_link": "https://github.com/SalesforceAIResearch/gift-eval/blob/main/notebooks/kairos.ipynb",
+    "org": "ShanghaiTech University",
+    "testdata_leakage": "No",
+    "replication_code_available": "Yes"
+}

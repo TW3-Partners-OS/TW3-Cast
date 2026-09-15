@@ -1,0 +1,10 @@
+{
+    "model": "TabPFN-TS",
+    "model_type": "zero-shot",
+    "model_dtype": "float32",
+    "model_link": "https://github.com/liam-sbhoo/tabpfn-time-series/tree/main",
+    "code_link": "https://github.com/SalesforceAIResearch/gift-eval/blob/main/notebooks/tabpfn_ts.ipynb",
+    "org": "PriorLabs",
+    "testdata_leakage": "No",
+    "replication_code_available": "Yes"
+}

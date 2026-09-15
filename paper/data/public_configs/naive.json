@@ -1,0 +1,9 @@
+{
+    "model": "Naive",
+    "model_type": "statistical",
+    "model_dtype": "float32",
+    "testdata_leakage": "No",
+    "model_link": "https://github.com/SalesforceAIResearch/gift-eval/blob/main/notebooks/naive.ipynb",
+    "code_link": "https://github.com/SalesforceAIResearch/gift-eval/blob/main/notebooks/naive.ipynb",
+    "replication_code_available": "Yes"
+}
