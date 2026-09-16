@@ -1,9 +1,16 @@
-\begin{thebibliography}{32}
+\begin{thebibliography}{35}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ahamed et~al.(2026)Ahamed, Parmar, Goyal, Li, Cheng, Pfister,
+  et~al.]{ahamed2026stride}
+Md~Atik Ahamed, Mihir Parmar, Palash Goyal, Chun-Liang Li, Qiang Cheng, Tomas
+  Pfister, et~al.
+\newblock Reasoning-aware training for time series forecasting.
+\newblock \emph{arXiv preprint arXiv:2605.08625}, 2026.
 
 \bibitem[Aksu et~al.(2024)Aksu, Woo, Liu, Liu, Liu, Savarese, Xiong, and
   Sahoo]{aksu2024gifteval}
@@ -86,6 +93,14 @@ Abhimanyu Das, Weihao Kong, Rajat Sen, and Yichen Zhou.
 \newblock A decoder-only foundation model for time-series forecasting.
 \newblock In \emph{International Conference on Machine Learning}, 2024.
 
+\bibitem[Das et~al.(2025)Das, Goyal, Parmar, Song, Le, Miculicich,
+  et~al.]{das2025synapse}
+Sarkar Snigdha~Sarathi Das, Palash Goyal, Mihir Parmar, Yiwen Song, Long~T. Le,
+  Lesly Miculicich, et~al.
+\newblock Synapse: Adaptive arbitration of complementary expertise in time
+  series foundational models.
+\newblock \emph{arXiv preprint arXiv:2511.05460}, 2025.
+
 \bibitem[{Datadog}(2026)]{toto2card}
 {Datadog}.
 \newblock {Toto} 2.0 2.5b-ft (model release).
@@ -125,6 +140,11 @@ Christiane Lemke and Bogdan Gabrys.
 \newblock Meta-learning for time series forecasting and forecast combination.
 \newblock \emph{Neurocomputing}, 73\penalty0 (10--12):\penalty0 2006--2016,
   2010.
+
+\bibitem[{LG AI Research}(2026)]{exaoneforecast}
+{LG AI Research}.
+\newblock {EXAONE-Forecast} (code and model release).
+\newblock \url{https://github.com/LGAI-Research/EXAONE-Forecast}, 2026.
 
 \bibitem[Liu et~al.(2024)Liu, Liu, Woo, Aksu, Liang, Zimmermann, Liu, Savarese,
   Xiong, and Sahoo]{liu2024moiraimoe}

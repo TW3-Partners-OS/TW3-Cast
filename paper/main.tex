@@ -50,9 +50,12 @@ TW3 Partners\\
 \begin{abstract}
 TW3Cast is a time-series forecasting system that reaches position
 \ourPos{} of \nEntries{} entries on the GIFT-Eval benchmark by mean MASE
-rank, as of 2026-09-14, with no agent and no language model at inference.
-The two entries above it are agentic pipelines, and every component of the
-system is trained on the benchmark's training splits only. The system is a router frozen into a table. For each of the 97 dataset,
+rank, as of 2026-09-14. The two entries above it belong to the
+leaderboard's agentic category, multi-step systems that use agents or
+language models to reason about, generate or select forecasts, and both
+run a large language model. TW3Cast runs none. Its selection is a table
+computed once on the training split and then frozen, its experts are
+public foundation models lightly fine-tuned on those training splits. For each of the 97 dataset,
 frequency and horizon configurations, the table serves one of four modes:
 a specialist, which is a LoRA or full fine-tune of Chronos-2, TiRex or
 Toto whose training data was cleaned and enriched by explicit rules; a
@@ -132,6 +135,21 @@ pool. Other foundation forecasters, such as Moirai \citep{woo2024moirai},
 Lag-Llama \citep{rasul2023lagllama} and the mixture-of-experts variants
 Moirai-MoE \citep{liu2024moiraimoe} and Time-MoE \citep{shi2025timemoe},
 are not in the pool but appear on the same leaderboard. 
+
+\paragraph{Agentic entries.} The leaderboard's agentic category covers
+multi-step systems that use agents or language models to reason about,
+generate or select forecasts. The two entries above ours in
+Section~\ref{sec:results} are documented. STRIDE
+\citep{ahamed2026stride} trains a time-series foundation model on
+reasoning traces produced by a language model, and Synapse
+\citep{das2025synapse} arbitrates between several foundation models with
+weights computed at inference. EXAONE-Forecast-Agent \citep{exaoneforecast}
+wraps a forecasting model in a multi-agent pipeline driven by a large
+language model. The lower agentic entries have no public description we
+could read. TW3Cast shares with these systems the idea of routing among
+public foundation models per data source, and differs in the three
+choices above: no language model anywhere, a routing decided once on the
+training split and frozen, and experts obtained by light fine-tuning.
 
 \paragraph{Forecast combination.} That combining forecasts beats
 committing to one goes back to \citet{bates1969combination}, and the
@@ -445,9 +463,9 @@ the release (Section~\ref{sec:repro}).
 
 \paragraph{Result 1 (standing on the leaderboard).} Inserted among the
 \nPublic{} public entries, TW3Cast reaches position \ourPos{} of
-\nEntries{} by mean MASE rank, with a mean rank of \ourRank. Every entry
-above it is declared as an agentic system by its authors, so TW3Cast is
-the best entry that runs no agent and no language model. By mean weighted
+\nEntries{} by mean MASE rank, with a mean rank of \ourRank. Every entry above it is declared as agentic by its authors, the category
+described in Section~\ref{sec:related}, so TW3Cast is the best entry that
+runs no agent and no language model. By mean weighted
 quantile loss rank the system is at position \ourWqlPos, with a mean rank
 of \ourWqlRank, so its calibration lags its point accuracy.
 Table~\ref{tab:leaderboard} gives the top of the leaderboard and
