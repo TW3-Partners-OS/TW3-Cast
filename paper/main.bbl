@@ -1,4 +1,4 @@
-\begin{thebibliography}{35}
+\begin{thebibliography}{34}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -140,11 +140,6 @@ Christiane Lemke and Bogdan Gabrys.
 \newblock Meta-learning for time series forecasting and forecast combination.
 \newblock \emph{Neurocomputing}, 73\penalty0 (10--12):\penalty0 2006--2016,
   2010.
-
-\bibitem[{LG AI Research}(2026)]{exaoneforecast}
-{LG AI Research}.
-\newblock {EXAONE-Forecast} (code and model release).
-\newblock \url{https://github.com/LGAI-Research/EXAONE-Forecast}, 2026.
 
 \bibitem[Liu et~al.(2024)Liu, Liu, Woo, Aksu, Liang, Zimmermann, Liu, Savarese,
   Xiong, and Sahoo]{liu2024moiraimoe}

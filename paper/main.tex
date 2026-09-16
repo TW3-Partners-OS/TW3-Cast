@@ -33,8 +33,7 @@
 
 \title{TW3Cast: A Frozen Router of Lightly Fine-Tuned\\
 Foundation Models for Time-Series Forecasting on GIFT-Eval,\\
-Selected Entirely on the Training Split\thanks{Every table,
-figure and leaderboard number of this paper regenerates by script from the
+Selected Entirely on the Training Split\thanks{Every leaderboard table, figure and number of this paper regenerates by script from the
 released routing table, the released expert index and a dated snapshot of
 the public per-configuration scores; see Section~\ref{sec:repro}.}}
 
@@ -50,12 +49,12 @@ TW3 Partners\\
 \begin{abstract}
 TW3Cast is a time-series forecasting system that reaches position
 \ourPos{} of \nEntries{} entries on the GIFT-Eval benchmark by mean MASE
-rank, as of 2026-09-14. The two entries above it belong to the
-leaderboard's agentic category, multi-step systems that use agents or
-language models to reason about, generate or select forecasts, and both
-run a large language model. TW3Cast runs none. Its selection is a table
-computed once on the training split and then frozen, its experts are
-public foundation models lightly fine-tuned on those training splits. For each of the 97 dataset,
+rank, as of 2026-09-14. The two entries above it belong to the leaderboard's agentic category,
+multi-step systems that use agents or language models to reason about,
+generate or select forecasts. TW3Cast runs no agent and no language
+model. Its selection is a table computed once on the training split and
+then frozen, and its experts are public foundation models lightly
+fine-tuned on those training splits. For each of the 97 dataset,
 frequency and horizon configurations, the table serves one of four modes:
 a specialist, which is a LoRA or full fine-tune of Chronos-2, TiRex or
 Toto whose training data was cleaned and enriched by explicit rules; a
@@ -73,8 +72,7 @@ model served alone reaches a mean MASE rank of \bestPoolRank, the
 tournament served on every configuration reaches \tourOnlyRank, and the
 full router reaches \ourRank. The routing table, the expert index, the
 pinned base-model revisions, the submitted score file and the dated
-snapshot of the public scores are released, and every number in this
-paper regenerates from them by one script.
+snapshot of the public scores are released, and every leaderboard number in this paper regenerates from them by one script.
 \end{abstract}
 
 \section{Introduction}
@@ -138,18 +136,18 @@ are not in the pool but appear on the same leaderboard.
 
 \paragraph{Agentic entries.} The leaderboard's agentic category covers
 multi-step systems that use agents or language models to reason about,
-generate or select forecasts. The two entries above ours in
-Section~\ref{sec:results} are documented. STRIDE
-\citep{ahamed2026stride} trains a time-series foundation model on
-reasoning traces produced by a language model, and Synapse
+generate or select forecasts. The first entry above ours in Section~\ref{sec:results} combines two
+published components. STRIDE \citep{ahamed2026stride} distills reasoning
+traces into a lightweight language model whose hidden states are
+projected into the encoder of a time-series foundation model, and Synapse
 \citep{das2025synapse} arbitrates between several foundation models with
-weights computed at inference. EXAONE-Forecast-Agent \citep{exaoneforecast}
-wraps a forecasting model in a multi-agent pipeline driven by a large
-language model. The lower agentic entries have no public description we
-could read. TW3Cast shares with these systems the idea of routing among
-public foundation models per data source, and differs in the three
-choices above: no language model anywhere, a routing decided once on the
-training split and frozen, and experts obtained by light fine-tuning.
+weights adjusted at inference. The second, EXAONE-Forecast-Agent, is
+declared agentic by its authors, and we found no public description of
+its pipeline. We do not characterize the other agentic entries. TW3Cast
+shares with these systems the idea of routing among
+public foundation models per data source, and differs in three choices: no language model anywhere, a routing
+decided once on the training split and frozen, and experts obtained by
+light fine-tuning.
 
 \paragraph{Forecast combination.} That combining forecasts beats
 committing to one goes back to \citet{bates1969combination}, and the
@@ -157,9 +155,8 @@ forecasting competitions have shown simple combinations to be strong
 \citep{makridakis2020m4,makridakis2022m5,timmermann2006combinations}.
 The forecast combination puzzle, in which estimated weights lose to equal
 weights, has a simple explanation in the estimation noise of the weights
-\citep{smith2009puzzle,claeskens2016puzzle}. Our router uses equal weights
-inside every blend for that reason, and spends its estimation budget on
-the choice of members instead.
+\citep{smith2009puzzle,claeskens2016puzzle}. Our router uses equal weights inside every blend and spends its
+estimation budget on the choice of members.
 
 \paragraph{Model selection by meta-learning.} Selecting or weighting
 forecasters per series from features of the series is the FFORMS and
@@ -366,8 +363,8 @@ $10^{-4}$ for LoRA and $10^{-5}$ for full fine-tunes.
 
 \paragraph{Three architectures and cross blends.} Chronos-2, TiRex and
 Toto 2.5B are specialized, each with its native recipe.
-Blends are sorted quantile means across architectures, so that the
-members of a blend fail on different windows. Each candidate is a checkpoint of a few megabytes trained
+Blends are sorted quantile means of their members, and \nBlendMixed{} of
+the \nBlendAll{} blends in the released table mix architectures. Each candidate is a checkpoint of a few megabytes trained
 in minutes, and by Definition~\ref{def:admission} it enters the router
 only by beating the tournament on the backtest
 (Figure~\ref{fig:pipeline}).
@@ -577,8 +574,8 @@ Table~\ref{tab:leaderboard}, over all 97 configurations and over the
 tournament. Pool members are their public entries and keep the ranks of
 Table~\ref{tab:components}. The tournament-only variant is scored from
 its released per-configuration grid, inserted into the same field as one
-more entry; that grid coincides with the submission on the tournament
-configurations. Script \code{make\_figures.py}.}
+more entry; on the tournament configurations that grid matches the submission to
+within 0.2 percent. Script \code{make\_figures.py}.}
 \label{tab:ablation}
 \end{table}
 
@@ -646,11 +643,9 @@ domains.
 
 \paragraph{Calibration.} The system is selected and admitted under a
 dual MASE and CRPS criterion, yet its weighted quantile loss rank
-(position \ourWqlPos) lags its MASE rank (position \ourPos). The dual
-criterion ranks on MASE and uses CRPS as a veto, so a candidate that wins
-on accuracy with adequate calibration is preferred to one that wins on
-calibration. A CRPS-first admission rule is the obvious variant and is
-not evaluated here.
+(position \ourWqlPos) lags its MASE rank (position \ourPos). The dual criterion eliminates poorly calibrated winners but does not
+select for calibration. A CRPS-first admission rule is the obvious
+variant and is not evaluated here.
 
 \paragraph{Serialization drift.} One serialization path of a base library
 drifted by under one percent between the in-memory model and its reloaded
@@ -682,10 +677,8 @@ number of this paper from the release alone, with no model call, in
 seconds. The fresh regime regenerates our result file by running the inference
 script on each configuration and scoring it with the official harness,
 which requires the base models at their pinned revisions, the expert
-checkpoints and one GPU. The tournament procedure
-for the \nTournament{} configurations it serves is described in
-Section~\ref{sec:tournament} and reproduces the served forecasts from the
-pool members and the training split.
+checkpoints and one GPU. The tournament procedure for the \nTournament{} configurations it serves
+is described in Section~\ref{sec:tournament}.
 
 \section{Conclusion}
 \label{sec:conclusion}

@@ -286,6 +286,12 @@ def numbers(L, M, used, fam, have_ours, A):  # noqa: C901
         'nExpToto': int(fam.get('toto', 0)),
         'nBlendTwo': int(((k == 2)).sum()), 'nBlendThree': int((k == 3).sum()),
         'nBlendFour': int((k == 4).sum()),
+        'nBlendAll': int((k >= 2).sum()),
+        'nBlendMixed': int(sum(
+            len({(json.load(open(os.path.join(D, 'experts.json')))[e]['type'] if e.startswith('E')
+                  else {'chronos2': 'c2', 'turk': 'c2', 'toto_25b_ft': 'toto', 'toto_uni': 'toto',
+                        'tirex': 'tirex', 'tirex2': 'tirex', 'timesfm': 'tfm'}[e]) for e in mem}) > 1
+            for mem in M.members if len(mem) >= 2)),
         'bestPoolName': None, 'bestPoolPos': None, 'bestPoolRank': None,
     }
     pool_in = [m for m in POOL if m in L.index]
