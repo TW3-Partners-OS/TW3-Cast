@@ -4,6 +4,11 @@
    "repo": "Datadog/Toto-2.0-2.5B-FT",
    "revision": "b4f030fb09ba0fe3f61dd11cf730539bda568eb1"
   },
+  "toto_uni": {
+   "repo": "Datadog/Toto-2.0-2.5B-FT",
+   "revision": "b4f030fb09ba0fe3f61dd11cf730539bda568eb1",
+   "note": "same checkpoint as toto_25b_ft, served through the forced univariate path (distinct pool member)"
+  },
   "chronos2": {
    "repo": "amazon/chronos-2",
    "revision": "29ec3766d36d6f73f0696f85560a422f50e8498c"

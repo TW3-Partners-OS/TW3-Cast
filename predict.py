@@ -12,8 +12,14 @@ Usage:
         --out forecasts.npy
 
 Artifact layout expected under --artifacts (from the model release): one entry per expert id
-of router.csv — either <Exx>.pt (state_dict) or <Exx>/ (save_pretrained or peft adapter
-directory) ; the architecture family of each expert is given by experts.json.
+of router.csv -- either <Exx>.pt (state_dict), <Exx>/ (save_pretrained or peft adapter
+directory), or <Exx>__<config-slug>.npy (verified forecast quantiles, for the one expert
+whose weights were not retained); the architecture family of each expert is in experts.json.
+
+These are reference recipes: they reload each artifact and forecast with the corresponding
+base model's native path. The submitted lines were additionally composed with long-context
+and multivariate serving variants on some configurations, so small decimal differences with
+the submission are expected there.
 """
 import argparse
 import json
@@ -28,7 +34,7 @@ BASE = json.load(open(os.path.join(os.path.dirname(__file__), "base_models.json"
 DEV = "cuda" if torch.cuda.is_available() else "cpu"
 
 
-# ---------------------------------------------------------------- base model wrappers
+# ---------------------------------------------------------------- base model loaders
 def load_chronos(repo_key):
     from chronos import BaseChronosPipeline
     spec = BASE[repo_key]
@@ -42,6 +48,27 @@ def load_tirex():
     return load_model(spec["repo"], backend=spec.get("backend", "torch"), device=DEV)
 
 
+def load_tirex2():
+    try:  # pre-Ampere GPUs: the fused flashrnn kernel is unavailable, force the pure-torch path
+        import tirex2.model.component.flashrnn_slstm as F
+        F._flashrnn_backend = lambda device: "vanilla"
+    except Exception:
+        pass
+    from tirex2 import load_model
+    return load_model(BASE["tirex2"]["repo"], device=DEV)
+
+
+def load_turk():
+    """Public LoRA adapter of chronos-2, merged into the base model."""
+    import peft
+    pipe = load_chronos("chronos2")
+    spec = BASE["turk"]
+    pipe.model = peft.PeftModel.from_pretrained(pipe.model, spec["repo"],
+                                                revision=spec["revision"]) \
+                     .merge_and_unload().eval()
+    return pipe
+
+
 def load_toto():
     from toto2 import Toto2Model
     spec = BASE["toto_25b_ft"]
@@ -52,11 +79,97 @@ def load_timesfm(max_horizon):
     import timesfm
     spec = BASE["timesfm"]
     m = timesfm.TimesFM_2p5_200M_torch.from_pretrained(spec["repo"], revision=spec["revision"])
-    m.compile(timesfm.ForecastConfig(max_context=2048, max_horizon=max_horizon,
+    m.compile(timesfm.ForecastConfig(max_context=2048, max_horizon=max(64, max_horizon),
                                      normalize_inputs=True, use_continuous_quantile_head=True,
                                      force_flip_invariance=True, infer_is_positive=True,
                                      fix_quantile_crossing=True))
     return m
+
+
+# ---------------------------------------------------------------- forecasting recipes
+def quantiles_chronos(pipe, ctxs, h):
+    out = []
+    for s in range(0, len(ctxs), 64):
+        q, _ = pipe.predict_quantiles(
+            [torch.tensor(c, dtype=torch.float32) for c in ctxs[s:s + 64]],
+            prediction_length=h, quantile_levels=QL)
+        if isinstance(q, list):
+            q = torch.stack([x.squeeze(0) for x in q])
+        out.append(np.asarray(q.cpu()).transpose(0, 2, 1))
+    return np.concatenate(out)
+
+
+def quantiles_tirex(model, ctxs, h):
+    out = []
+    with torch.no_grad():
+        for s in range(0, len(ctxs), 256):
+            q, _ = model.forecast(
+                context=[np.asarray(c, dtype=np.float32) for c in ctxs[s:s + 256]],
+                prediction_length=h, output_type="numpy", batch_size=256)
+            out.append(np.sort(np.asarray(q).transpose(0, 2, 1), axis=1))   # (b, h, 9) -> (b, 9, h)
+    return np.concatenate(out)
+
+
+def quantiles_tirex2(model, ctxs, h, max_h=320):
+    """Native horizon cap 320: autoregressive chunks, median fed back."""
+    from tirex2 import TimeseriesType
+    def bloc(cs, hh):
+        qs = []
+        for i in range(0, len(cs), 256):
+            ts = [TimeseriesType(target=torch.as_tensor(np.asarray(c, dtype=np.float32)).unsqueeze(0),
+                                 past_covariates=None, future_covariates=None) for c in cs[i:i + 256]]
+            out = model.forecast(ts, prediction_length=hh, output_type="numpy")
+            qs.extend(np.asarray(x)[0] for x in out)
+        return np.stack(qs)                                                 # (n, 9, hh)
+    cur, parts, left = [np.asarray(c, dtype=np.float32) for c in ctxs], [], h
+    while left > 0:
+        hh = min(left, max_h)
+        q = bloc(cur, hh)
+        parts.append(q)
+        left -= hh
+        if left > 0:
+            cur = [np.concatenate([c, q[i, 4]]) for i, c in enumerate(cur)]
+    return np.sort(np.concatenate(parts, axis=2), axis=1)
+
+
+def quantiles_toto(model, ctxs, h, max_h=128):
+    """Univariate Toto serving (native quantiles); horizon cap 128: AR chunks, median fed back."""
+    patch = int(getattr(model.config, "patch_size", 64) or 64)
+
+    def fn(cs, hh):
+        x = torch.stack([torch.tensor(np.asarray(c, dtype=np.float32), device=DEV)[None]
+                         for c in cs])
+        T = x.shape[-1]
+        x = (torch.cat([x[..., :1].expand(*x.shape[:-1], patch - T), x], dim=-1) if T < patch
+             else x[..., -((T // patch) * patch):])
+        inp = {"target": x, "series_ids": torch.zeros(len(cs), 1, dtype=torch.long, device=DEV),
+               "target_mask": torch.ones_like(x, dtype=torch.bool)}
+        with torch.no_grad():
+            o = model.forecast(inp, horizon=hh)
+        return np.asarray(o.detach().float().cpu())[:, :, 0, :].transpose(1, 0, 2)   # (b, 9, hh)
+
+    out = []
+    for s in range(0, len(ctxs), 16):
+        lot = [np.asarray(c, dtype=np.float32) for c in ctxs[s:s + 16]]
+        parts, left = [], h
+        while left > 0:
+            hh = min(left, max_h)
+            q = fn(lot, hh)
+            parts.append(q)
+            left -= hh
+            if left > 0:
+                lot = [np.concatenate([c, q[i, 4]]) for i, c in enumerate(lot)]
+        out.append(np.concatenate(parts, axis=2))
+    return np.sort(np.concatenate(out), axis=1)
+
+
+def quantiles_timesfm(model, ctxs, h):
+    out = []
+    for s in range(0, len(ctxs), 64):
+        _, q = model.forecast(horizon=h,
+                              inputs=[np.asarray(c, dtype=np.float32) for c in ctxs[s:s + 64]])
+        out.append(np.asarray(q)[:, :h, 1:].transpose(0, 2, 1))   # (b, h, 10) -> (b, 9, h)
+    return np.concatenate(out)
 
 
 # ---------------------------------------------------------------- artifact reloading
@@ -83,7 +196,7 @@ def reload_artifact(kind, path, base_key=None):
     if kind == "toto":
         import peft
         base = load_toto()
-        return peft.PeftModel.from_pretrained(base, path).eval()
+        return peft.PeftModel.from_pretrained(base, path).merge_and_unload().eval()
     raise ValueError(kind)
 
 
@@ -105,18 +218,6 @@ def contexts_for(config):
     return d, ctxs, d.prediction_length, get_seasonality(d.freq)
 
 
-def quantiles_chronos(pipe, ctxs, h):
-    out = []
-    for s in range(0, len(ctxs), 64):
-        q, _ = pipe.predict_quantiles(
-            [torch.tensor(c, dtype=torch.float32) for c in ctxs[s:s + 64]],
-            prediction_length=h, quantile_levels=QL)
-        if isinstance(q, list):
-            q = torch.stack([x.squeeze(0) for x in q])
-        out.append(np.asarray(q.cpu()).transpose(0, 2, 1))
-    return np.concatenate(out)
-
-
 def member_forecast(member, ctxs, h, artifacts, config=None):
     """Forecast of one router member: an expert id (Exx) or a base model name."""
     if member.startswith("E"):
@@ -135,10 +236,24 @@ def member_forecast(member, ctxs, h, artifacts, config=None):
         model = reload_artifact(kind, path)
         if kind == "c2":
             return quantiles_chronos(model, ctxs, h)
-        raise NotImplementedError(f"see README for the {kind} forecast recipe")
-    if member in ("chronos2", "turk"):
-        return quantiles_chronos(load_chronos("chronos2" if member == "turk" else member), ctxs, h)
-    raise NotImplementedError(f"member {member}: load via base_models.json (see README)")
+        if kind == "tirex":
+            return quantiles_tirex(model, ctxs, h)
+        if kind == "toto":
+            return quantiles_toto(model, ctxs, h)
+        raise ValueError(kind)
+    if member == "chronos2":
+        return quantiles_chronos(load_chronos("chronos2"), ctxs, h)
+    if member == "turk":
+        return quantiles_chronos(load_turk(), ctxs, h)
+    if member == "tirex":
+        return quantiles_tirex(load_tirex(), ctxs, h)
+    if member == "tirex2":
+        return quantiles_tirex2(load_tirex2(), ctxs, h)
+    if member in ("toto_25b_ft", "toto_uni"):
+        return quantiles_toto(load_toto(), ctxs, h)
+    if member == "timesfm":
+        return quantiles_timesfm(load_timesfm(h), ctxs, h)
+    raise ValueError(f"unknown member: {member}")
 
 
 def main():
