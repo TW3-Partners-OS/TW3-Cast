@@ -42,7 +42,7 @@ the model release under their expert id.
   `base_models.json`.
 - **Trained artifacts** (fine-tuned checkpoints and LoRA adapters) are distributed in the
   project's model release:
-  [huggingface.co/TW3-Partners/TW3Cast](https://huggingface.co/TW3-Partners/TW3Cast).
+  [huggingface.co/TW3PartnersLLM/TW3Cast](https://huggingface.co/TW3PartnersLLM/TW3Cast).
 - `predict.py` shows how to reload each expert type and how to reproduce the served
   forecast of any configuration: it composes the experts with the weights of `router.csv`
   (weighted quantile mean, sorted) and outputs the 9 quantiles [0.1 … 0.9], shape
