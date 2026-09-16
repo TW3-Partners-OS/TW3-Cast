@@ -31,8 +31,8 @@
 \newtheorem{problem}{Problem}
 \input{numbers}
 
-\title{TW3Cast: Leakage-Free Time-Series Forecasting on GIFT-Eval\\
-with a Frozen Router of Lightly Fine-Tuned Foundation Models\\
+\title{TW3Cast: A Frozen Router of Lightly Fine-Tuned\\
+Foundation Models for Time-Series Forecasting on GIFT-Eval,\\
 Selected Entirely on the Training Split\thanks{Every table,
 figure and leaderboard number of this paper regenerates by script from the
 released routing table, the released expert index and a dated snapshot of
@@ -50,9 +50,9 @@ TW3 Partners\\
 \begin{abstract}
 TW3Cast is a time-series forecasting system that reaches position
 \ourPos{} of \nEntries{} entries on the GIFT-Eval benchmark by mean MASE
-rank, as of 2026-09-14, with no agent, no language model at inference,
-and no component trained on data that overlaps the benchmark's test sets.
-The two entries above it are agentic pipelines. The system is a router frozen into a table. For each of the 97 dataset,
+rank, as of 2026-09-14, with no agent and no language model at inference.
+The two entries above it are agentic pipelines, and every component of the
+system is trained on the benchmark's training splits only. The system is a router frozen into a table. For each of the 97 dataset,
 frequency and horizon configurations, the table serves one of four modes:
 a specialist, which is a LoRA or full fine-tune of Chronos-2, TiRex or
 Toto whose training data was cleaned and enriched by explicit rules; a
@@ -112,8 +112,7 @@ degrades the system on its selection criterion, and a candidate costs
 minutes. We report the wins and the configurations where every trained
 candidate lost and was discarded (Sections~\ref{sec:results}
 and~\ref{sec:deploy}). Inserted among the \nPublic{} public entries with complete
-results on 2026-09-14, the system reaches position \ourPos{} of
-\nEntries{} by mean MASE rank, with no test-data leakage in any component
+results on 2026-09-14, the system reaches position \ourPos{} of \nEntries{} by mean MASE rank
 (Section~\ref{sec:results}).
 
 \section{Related work}
@@ -132,9 +131,7 @@ public LoRA of Chronos-2 \citep{turkforecast} complete the tournament
 pool. Other foundation forecasters, such as Moirai \citep{woo2024moirai},
 Lag-Llama \citep{rasul2023lagllama} and the mixture-of-experts variants
 Moirai-MoE \citep{liu2024moiraimoe} and Time-MoE \citep{shi2025timemoe},
-are not in the pool but appear on the same leaderboard. Every pool member
-declares no training overlap with the GIFT-Eval test sets on the official
-leaderboard.
+are not in the pool but appear on the same leaderboard. 
 
 \paragraph{Forecast combination.} That combining forecasts beats
 committing to one goes back to \citet{bates1969combination}, and the
@@ -162,9 +159,8 @@ and zero inference-time overhead.
 \paragraph{Backtesting for selection.} The choice between blocked temporal
 splits and random splits for time-series model selection has a long
 literature \citep{tashman2000outofsample,bergmeir2012crossvalidation,
-cerqueira2020evaluating}. Our temporal meta-backtest applies the same
-question one level up, to the selection rule rather than to the model,
-and reaches the same conclusion.
+cerqueira2020evaluating}. Our temporal meta-backtest applies the same choice one level up, to the
+selection rule rather than to the model.
 
 \section{Problem statement}
 \label{sec:problem}
@@ -300,22 +296,19 @@ router is frozen before any test window is read.}
 \paragraph{Validating the selector itself.} Before trusting a selection
 rule we evaluate it by a temporal meta-backtest. The rule selects on the
 older backtest windows and its choice is scored on the recent ones, over
-hundreds of draws. This temporal protocol ranks competing selection rules
-consistently with their later behavior. A random split of the same windows
-does not, and it favors the more flexible rules, which is the finding of
+hundreds of draws. The split is temporal, following
 \citet{bergmeir2012crossvalidation} and \citet{cerqueira2020evaluating}
-transposed from models to selection rules. All rule iteration in this
+one level up, from models to selection rules. All rule iteration in this
 work, on margins, tie-breaks and gate thresholds, was carried out inside
 this protocol, at no cost in evaluation data.
 
 \section{Building the experts}
 \label{sec:experts}
 
-The empirical claim of this section is that the value of a fine-tune is
-decided before training starts, by how its data is prepared. With the same
-base model and the same configuration, preparation moves a candidate from
-mid-table to the top of the backtest, and each preparation rule below is
-cheap and explicit.
+The design principle of this section is that the value of a fine-tune is
+decided before training starts, by how its data is prepared. Each
+preparation rule below is cheap and explicit, and every candidate it
+produces faces the admission rule of Definition~\ref{def:admission}.
 
 \paragraph{Cleaning.} Every corpus is filtered series by series before
 training. Degenerate series with near-zero variance, constant or
@@ -355,9 +348,8 @@ $10^{-4}$ for LoRA and $10^{-5}$ for full fine-tunes.
 
 \paragraph{Three architectures and cross blends.} Chronos-2, TiRex and
 Toto 2.5B are specialized, each with its native recipe.
-Cross-architecture blends of sorted quantile means beat single-family
-ensembles on the backtest, and architecture diversity brought more than
-seed diversity. Each candidate is a checkpoint of a few megabytes trained
+Blends are sorted quantile means across architectures, so that the
+members of a blend fail on different windows. Each candidate is a checkpoint of a few megabytes trained
 in minutes, and by Definition~\ref{def:admission} it enters the router
 only by beating the tournament on the backtest
 (Figure~\ref{fig:pipeline}).
@@ -410,8 +402,7 @@ naive references. The challenger must be better by at least 10\% on
 average, better on each segment, and better on CRPS. A regime-transition
 guard blocks any switch when the recent dormancy of the context differs
 from what the segments saw, as at dawn and dusk of hourly series, where
-the segment signal inverts. The result is a deliberately conservative net
-with few switches.
+the segment signal inverts. The gate is designed to switch rarely.
 
 \paragraph{Safety nets for designated experts.} Configurations served by
 a specialist carry a distinct anti-catastrophe gate with high thresholds,
@@ -442,8 +433,10 @@ result file and every entry description from the leaderboard repository.
 Entries with a result file covering all 97 configurations number
 \nPublic. For each configuration we rank all entries by MASE and by
 weighted quantile loss, ties sharing the lowest rank, and we average the
-ranks over the 97 configurations. Our submission is inserted into this set
-as one more entry and ranked by the same rule. The leaderboard is living,
+ranks over the 97 configurations. Our submission is inserted into this set as one more entry and ranked by
+the same rule. Every pool member declares no training overlap with the
+test sets in its leaderboard description, and our own training touches
+only the provided training splits. The leaderboard is living,
 so every position in this paper is dated. The snapshot itself is part of
 the release (Section~\ref{sec:repro}).
 
@@ -621,10 +614,9 @@ position.
 
 \paragraph{Recency bias as an assumption.} The backtest samples the end
 of the training split on purpose. This is an assumption about regime
-continuity, not a theorem. The temporal meta-backtest supports it on this
-benchmark and also showed that a random split of the same windows misleads
-rule selection, but a source with an abrupt regime change at the train
-and test boundary would defeat both.
+continuity, not a theorem. The temporal meta-backtest is built on the same assumption, and a source
+with an abrupt regime change at the train and test boundary would defeat
+both.
 
 \paragraph{Selection flexibility.} Any system with margins and thresholds
 can overfit its own validation data. All such constants
@@ -633,16 +625,6 @@ meta-backtest and then frozen, and none was tuned on official evaluation
 results. The protection is procedural, and it does not remove the
 dependence of the constants on this benchmark's mix of frequencies and
 domains.
-
-\paragraph{Unreleased ablations.} Four claims of
-Sections~\ref{sec:protocol} to~\ref{sec:tournament} rest on the authors'
-development logs rather than on a released table. They are the ordering
-of selection rules under the temporal versus the random meta-backtest, the
-effect of each preparation rule on a fixed base model, the advantage of
-cross-architecture blends over single-family ensembles of seeds, and the
-switch counts of the per-window gate. This version states them
-qualitatively. The results of Section~\ref{sec:results} do not depend on
-them, since the released score files alone reproduce every number there.
 
 \paragraph{Calibration.} The system is selected and admitted under a
 dual MASE and CRPS criterion, yet its weighted quantile loss rank
@@ -668,13 +650,9 @@ The code repository\footnote{\url{https://github.com/TW3-Partners-OS/TW3-Cast}}
 contains the routing table \code{router.csv}, the expert index
 \code{experts.json}, the pinned revisions of the six base models
 \code{base\_models.json}, and a reference inference script
-\code{predict.py}. The script reloads an expert of any of the three families from a
-\code{state\_dict}, a saved pipeline or a PEFT adapter, composes the
-members of a configuration with the weights of the table, and writes the
-nine deciles for the official windows; the forecast call of each family
-is the standard one of its library at the pinned revision. Expert checkpoints are distributed in the model release linked
-from the repository under their expert identifiers, and the one expert
-shipped as quantiles is loaded by the same script from its quantile file.
+\code{predict.py}. Expert checkpoints are distributed with the repository under their expert
+identifiers, and the one expert shipped as quantiles is loaded from its
+quantile file.
 The paper's own folder in the repository contains the dated snapshot
 of the public per-configuration result files, the submitted TW3Cast
 result file, the per-configuration grid of the tournament-only variant,
@@ -683,10 +661,10 @@ figure and number of this paper from them.
 
 Two regimes apply. The exact regime regenerates every table, figure and
 number of this paper from the release alone, with no model call, in
-seconds. The fresh regime regenerates our result file by
-running \code{predict.py} on each configuration and scoring it with the
-official harness, which requires the base models at their pinned
-revisions, the expert checkpoints and one GPU. The tournament procedure
+seconds. The fresh regime regenerates our result file by running the inference
+script on each configuration and scoring it with the official harness,
+which requires the base models at their pinned revisions, the expert
+checkpoints and one GPU. The tournament procedure
 for the \nTournament{} configurations it serves is described in
 Section~\ref{sec:tournament} and reproduces the served forecasts from the
 pool members and the training split.
@@ -698,8 +676,7 @@ A frozen table of mixture weights over lightly fine-tuned experts, fed by
 an explicit data-preparation methodology and defended by guarded
 train-side selection, reaches position \ourPos{} of \nEntries{} on
 GIFT-Eval by mean MASE rank on 2026-09-14 once inserted among the
-\nPublic{} public entries, with no agent,
-no language model at inference and no test-data leakage in any component.
+\nPublic{} public entries, with no agent and no language model at inference.
 The design optimizes for properties that large monolithic forecasters
 lack. Every routing row traces to a measured decision, admission by
 beating the tournament makes each upgrade individually verified at minutes
@@ -748,8 +725,7 @@ and~\ref{sec:tournament} and then frozen.}
 
 Tables~\ref{tab:router} and~\ref{tab:routerb} list the served mode of
 every configuration as read from \code{router.csv}. Abbreviations are C2 for Chronos-2, TFM for
-TimesFM 2.5, Toto for Toto 2.0 2.5B FT, Toto-uni for its univariate
-serving, Turk for the TurkForecast LoRA of Chronos-2, and TiRex and
+TimesFM 2.5, Toto for Toto 2.0 2.5B FT, Toto-uni for a univariate Toto member, Turk for the TurkForecast LoRA of Chronos-2, and TiRex and
 TiRex-2 for the two TiRex releases.
 
 \begin{table}[p]
