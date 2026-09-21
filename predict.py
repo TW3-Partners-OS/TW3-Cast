@@ -33,6 +33,21 @@ QL = [round(0.1 * i, 1) for i in range(1, 10)]
 BASE = json.load(open(os.path.join(os.path.dirname(__file__), "base_models.json")))["base_models"]
 DEV = "cuda" if torch.cuda.is_available() else "cpu"
 
+# benchmark configuration name -> GIFT-Eval dataset directory
+NAME_MAP = {
+    "kdd_cup_2018/D": "kdd_cup_2018_with_missing/D", "kdd_cup_2018/H": "kdd_cup_2018_with_missing/H",
+    "loop_seattle/D": "LOOP_SEATTLE/D", "loop_seattle/H": "LOOP_SEATTLE/H",
+    "loop_seattle/5T": "LOOP_SEATTLE/5T", "m_dense/D": "M_DENSE/D", "m_dense/H": "M_DENSE/H",
+    "sz_taxi/H": "SZ_TAXI/H", "sz_taxi/15T": "SZ_TAXI/15T",
+    "temperature_rain/D": "temperature_rain_with_missing", "restaurant/D": "restaurant",
+    "saugeen/D": "saugeenday/D", "saugeen/W": "saugeenday/W", "saugeen/M": "saugeenday/M",
+    "car_parts/M": "car_parts_with_missing", "m4_daily/D": "m4_daily", "m4_weekly/W": "m4_weekly",
+    "m4_hourly/H": "m4_hourly", "m4_quarterly/Q": "m4_quarterly", "m4_monthly/M": "m4_monthly",
+    "m4_yearly/A": "m4_yearly", "hospital/M": "hospital", "covid_deaths/D": "covid_deaths",
+    "bizitobs_application/10S": "bizitobs_application", "bizitobs_service/10S": "bizitobs_service",
+    "us_births/D": "us_births/D",
+}
+
 
 # ---------------------------------------------------------------- base model loaders
 def load_chronos(repo_key):
@@ -148,9 +163,7 @@ def quantiles_toto(model, ctxs, h, max_h=128):
             o = model.forecast(inp, horizon=hh)
         return np.asarray(o.detach().float().cpu())[:, :, 0, :].transpose(1, 0, 2)   # (b, 9, hh)
 
-    out = []
-    for s in range(0, len(ctxs), 16):
-        lot = [np.asarray(c, dtype=np.float32) for c in ctxs[s:s + 16]]
+    def ar(lot):
         parts, left = [], h
         while left > 0:
             hh = min(left, max_h)
@@ -159,8 +172,20 @@ def quantiles_toto(model, ctxs, h, max_h=128):
             left -= hh
             if left > 0:
                 lot = [np.concatenate([c, q[i, 4]]) for i, c in enumerate(lot)]
-        out.append(np.concatenate(parts, axis=2))
-    return np.sort(np.concatenate(out), axis=1)
+        return np.concatenate(parts, axis=2)
+
+    # Toto batches require equal lengths: group windows by context length
+    out = [None] * len(ctxs)
+    groupes = {}
+    for i, c in enumerate(ctxs):
+        groupes.setdefault(len(c), []).append(i)
+    for idx in groupes.values():
+        for s in range(0, len(idx), 16):
+            part = idx[s:s + 16]
+            q = ar([np.asarray(ctxs[i], dtype=np.float32) for i in part])
+            for j, i in enumerate(part):
+                out[i] = q[j]
+    return np.sort(np.stack(out), axis=1)
 
 
 def quantiles_timesfm(model, ctxs, h):
@@ -205,6 +230,7 @@ def contexts_for(config):
     from gift_eval.data import Dataset
     from gluonts.time_feature import get_seasonality
     name, term = config.rsplit("/", 1)
+    name = NAME_MAP.get(name, name)
     d0 = Dataset(name=name, term=term, to_univariate=False)
     d = Dataset(name=name, term=term, to_univariate=d0.target_dim > 1)
     ctxs = []

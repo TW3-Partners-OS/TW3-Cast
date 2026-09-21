@@ -1,10 +1,10 @@
 # TW3Cast
 
 Time-series forecasting system evaluated on [GIFT-Eval](https://huggingface.co/spaces/Salesforce/GIFT-Eval)
-(97 configurations) — **MASE_Rank: 3rd as of 2026-09-14**, best non-agentic system on the
-leaderboard, with **zero test-data leakage**: no component was trained on data overlapping the
-benchmark's test sets (no agents, no LLM at inference: a lightweight per-configuration router
-over specialized models).
+(97 configurations) — **MASE_Rank: 3rd as of 2026-09-14**, with **zero test-data leakage**: no
+component was trained on data overlapping the benchmark's test sets. Listed in the
+leaderboard's multi-model (agentic) category, but it runs **no agent and no LLM**, and makes
+**no inference-time decisions**: a frozen per-configuration router over specialized models.
 
 ## How it works
 
@@ -58,9 +58,27 @@ Evaluation follows the official GIFT-Eval harness (`gluonts.model.evaluate_forec
 
 ## Results
 
-**MASE_Rank: 3rd, as of 2026-09-14.** First non-agentic system — only two LLM-agent pipelines
-rank above it — with zero test-data leakage. Per-configuration figures are in the GIFT-Eval
-submission (`results/TW3Cast/all_results.csv` on the benchmark repository).
+**MASE_Rank: 3rd, as of 2026-09-14.** Only two systems rank above it, both LLM-agent
+pipelines; TW3Cast runs no LLM and makes no inference-time decisions, with zero test-data
+leakage. Per-configuration figures are in the GIFT-Eval submission
+(`results/TW3Cast/all_results.csv` on the benchmark repository).
+
+## Replicating the submitted scores
+
+`replicate.py` reproduces any submitted line exactly: it downloads the served forecast
+quantiles of the configuration from the model release (`served/<config>.npy`, the exact arrays
+behind the submission, tournament-mode configurations included) and evaluates them with the
+official harness:
+
+```bash
+python replicate.py --config "m4_weekly/W/short"   # or --all
+```
+
+Every metric matches the submitted `all_results.csv` to full precision. The tournament's
+per-configuration decisions (served default, number of per-window switches) are published in
+the release under `decisions/`. `predict.py` recomputes forecasts from the released expert
+checkpoints; serving-time context variants make its outputs match the submission only
+approximately, so exact replication goes through the served arrays.
 
 ## License & contact
 
